@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glass Profile</title>
+  <title>Arian</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -91,22 +91,31 @@
       background: rgba(255, 255, 255, 0.12);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 24px;
-      transition: all 0.3s
+      transition: all 0.3s;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
 
     .glass:hover {
-      background: rgba(255, 255, 255, 0.18)
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
     }
 
     .dark .glass {
       background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.1)
+      border-color: rgba(255, 255, 255, 0.1);
     }
 
     .dark .glass:hover {
-      background: rgba(255, 255, 255, 0.1)
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Light mode specific glass */
+    .app-shell:not(.dark) .glass {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     }
 
     .page {
@@ -290,6 +299,11 @@
       color: inherit
     }
 
+    .app-shell:not(.dark) .form-input {
+      background: rgba(0, 0, 0, 0.03);
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
     .form-input:focus {
       border-color: rgba(124, 58, 237, 0.5);
       box-shadow: 0 0 20px rgba(124, 58, 237, 0.15)
@@ -433,6 +447,8 @@
       <div class="loader-ring"></div>
     </div><!-- BG -->
     <div class="bg-mesh" id="bgMesh">
+      <video id="bgVideo" src="./bg_video.mp4" preload="auto" muted playsinline
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; z-index: -1;"></video>
       <div class="blob blob-1" id="blob1"></div>
       <div class="blob blob-2" id="blob2"></div>
       <div class="blob blob-3" id="blob3"></div>
@@ -602,9 +618,14 @@
   </div>
   <script>
     const projects = [
-      { title: 'Enterprise ERP System', desc: 'Robust multi-tenant backend architecture built with ASP.NET Core, enabling seamless resource planning and payroll management.', tags: ['ASP.NET Core', 'SQL Server', 'C#'], img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800' },
-      { title: 'Fintech Data Engine', desc: 'High-performance transaction processing and reporting API designed with Python and Django REST framework.', tags: ['Python', 'Django', 'PostgreSQL'], img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800' },
-      { title: 'Brand Identity Showcase', desc: 'Static web application combined with Canva graphic elements reflecting modern corporate identity.', tags: ['HTML/CSS/JS', 'Bootstrap', 'Canva'], img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800' }
+      { title: 'D-POS Desktop App', desc: 'A complete desktop POS and inventory management system with advanced reporting and real-time tracking.', tags: ['C#', 'SQL Server', 'Desktop'], img: './Screenshot dashboard.png', url: 'd-pos.html', type: 'blog' },
+      { title: 'Backend ERP System', desc: 'Enterprise-grade ERP backend built with ABP Framework and ASP.NET Core, featuring multi-tenancy.', tags: ['ASP.NET Core', 'ABP Framework', 'SQL Server'], img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', url: 'erp-system.html', type: 'blog' },
+      { title: 'GREF Insurance', desc: 'International insurance company website with a clean, trust-focused corporate design.', tags: ['HTML/CSS/JS', 'Professional'], img: './gref_thumb.png', url: 'https://evotech-solution.github.io/gref/', type: 'link' },
+      { title: 'Leventure Travel', desc: 'A cinematic, high-end travel agency website with luxury storytelling and parallax effects.', tags: ['UI/UX', 'GSAP', 'HTML'], img: './leventure_thumb.png', url: 'https://digitaltashion.github.io/leventure/', type: 'link' },
+      { title: 'McSher Civil Engineer', desc: 'Professional portfolio and service showcase for a civil engineering and construction firm.', tags: ['Architecture', 'Static Web'], img: './mcsher_thumb.png', url: 'https://digitaltashion.github.io/mcsher/', type: 'link' },
+      { title: 'SmileCut Saloon', desc: 'Modern and elegant website for a premium hair saloon, focusing on aesthetics and services.', tags: ['Beauty', 'Responsive'], img: './smilecut_thumb.png', url: 'https://evotech-solution.github.io/smilecut/', type: 'link' },
+      { title: 'Fakhar Suzuki Center', desc: 'Service center website for Suzuki bike repairs, featuring garage management details.', tags: ['Automotive', 'HTML/CSS'], img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800', url: 'https://evotech-solution.github.io/fsc/', type: 'link' },
+      { title: 'APAX POS Software', desc: 'Modern branding and POS software showcase for APAX software company.', tags: ['Software', 'SAAS UI'], img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800', url: 'https://apaxpos.online', type: 'link' }
     ];
 
     // Render projects
@@ -612,15 +633,16 @@
     projects.forEach((p, i) => {
       const d = document.createElement('div');
       d.className = 'project-card glass fade-in';
-      d.style.cssText = `padding:20px;margin-bottom:16px;cursor:pointer;transition-delay:${i * 0.1 + 0.1}s`;
-      d.innerHTML = `<img src="${p.img}" style="width:100%;height:120px;border-radius:16px;margin-bottom:12px;object-fit:cover;" alt="${p.title}"><h3 style="font-weight:600;font-size:16px;margin-bottom:4px">${p.title}</h3><p style="font-size:13px;opacity:0.6;margin-bottom:10px;line-height:1.5">${p.desc}</p><div style="display:flex;gap:6px;flex-wrap:wrap">${p.tags.map(t => `<span class="skill-chip glass" style="font-size:11px;padding:4px 10px">${t}</span>`).join('')}</div>`;
+      d.style.cssText = `padding:20px;margin-bottom:16px;cursor:pointer;transition-delay:${i * 0.05 + 0.1}s`;
+      d.innerHTML = `<img src="${p.img}" style="width:100%;height:120px;border-radius:16px;margin-bottom:12px;object-fit:cover;" alt="${p.title}"><h3 style="font-weight:600;font-size:16px;margin-bottom:4px">${p.title}</h3><p style="font-size:12px;opacity:0.6;margin-bottom:10px;line-height:1.4">${p.desc}</p><div style="display:flex;gap:4px;flex-wrap:wrap">${p.tags.map(t => `<span class="skill-chip glass" style="font-size:9px;padding:3px 8px">${t}</span>`).join('')}</div>`;
       d.addEventListener('click', () => openModal(p));
       pl.appendChild(d);
     });
 
     function openModal(p) {
       const m = document.getElementById('modalInner');
-      m.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px">${p.title}</h3><button onclick="document.getElementById('projectModal').classList.remove('open')" style="background:none;border:none;cursor:pointer;color:inherit;opacity:0.5"><i data-lucide="x" style="width:20px;height:20px"></i></button></div><img src="${p.img}" style="width:100%;height:160px;border-radius:16px;margin-bottom:16px;object-fit:cover;" alt="${p.title}"><p style="font-size:14px;line-height:1.7;opacity:0.8;margin-bottom:16px">${p.desc}</p><div style="display:flex;gap:6px;flex-wrap:wrap">${p.tags.map(t => `<span class="skill-chip glass" style="font-size:12px;padding:5px 12px">${t}</span>`).join('')}</div>`;
+      const btnText = p.type === 'blog' ? 'View Case Study' : 'Explore Project';
+      m.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3 style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px">${p.title}</h3><button onclick="document.getElementById('projectModal').classList.remove('open')" style="background:none;border:none;cursor:pointer;color:inherit;opacity:0.5"><i data-lucide="x" style="width:20px;height:20px"></i></button></div><img src="${p.img}" style="width:100%;height:160px;border-radius:16px;margin-bottom:16px;object-fit:cover;" alt="${p.title}"><p style="font-size:14px;line-height:1.7;opacity:0.8;margin-bottom:20px">${p.desc}</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px">${p.tags.map(t => `<span class="skill-chip glass" style="font-size:12px;padding:5px 12px">${t}</span>`).join('')}</div><a href="${p.url}" target="${p.type === 'blog' ? '_self' : '_blank'}" class="cta-btn" style="text-decoration:none;display:inline-block;padding:12px 24px">${btnText}</a>`;
       lucide.createIcons();
       document.getElementById('projectModal').classList.add('open');
     }
@@ -669,15 +691,20 @@
     }
 
     // Theme
-    let dark = true;
+    let dark = localStorage.getItem('theme') !== 'light';
     const toggle = document.getElementById('themeToggle');
     function applyTheme() {
       const app = document.getElementById('app');
       const bg = document.getElementById('bgMesh');
+      const video = document.getElementById('bgVideo');
       if (dark) {
         app.classList.add('dark');
         document.body.style.color = '#f0f0f5';
         bg.style.background = '#0a0a1a';
+        if (video) {
+          video.style.display = 'none';
+          video.pause();
+        }
         document.getElementById('blob1').style.display = 'block';
         document.getElementById('blob2').style.display = 'block';
         document.getElementById('blob3').style.display = 'block';
@@ -685,14 +712,21 @@
         document.getElementById('blob2').style.background = 'rgba(236,72,153,0.3)';
         document.getElementById('blob3').style.background = 'rgba(59,130,246,0.3)';
         toggle.innerHTML = '<i data-lucide="sun" style="width:18px;height:18px"></i>';
+        localStorage.setItem('theme', 'dark');
       } else {
         app.classList.remove('dark');
         document.body.style.color = '#1a1a2e';
-        bg.style.background = 'url(./ios27_bg.png) no-repeat center center / cover';
+        bg.style.background = 'transparent';
+        if (video) {
+          video.style.display = 'block';
+          video.currentTime = 0;
+          video.play().catch(e => console.log('Video play failed:', e));
+        }
         document.getElementById('blob1').style.display = 'none';
         document.getElementById('blob2').style.display = 'none';
         document.getElementById('blob3').style.display = 'none';
         toggle.innerHTML = '<i data-lucide="moon" style="width:18px;height:18px"></i>';
+        localStorage.setItem('theme', 'light');
       }
       lucide.createIcons();
     }
