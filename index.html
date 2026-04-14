@@ -15,28 +15,28 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box
+      box-sizing: border-box;
     }
 
     html,
     body {
       height: 100%;
       overflow: hidden;
-      font-family: 'Outfit', sans-serif
+      font-family: 'Outfit', sans-serif;
     }
 
     .app-shell {
       height: 100%;
       width: 100%;
       position: relative;
-      overflow: hidden
+      overflow: hidden;
     }
 
     .bg-mesh {
       position: fixed;
       inset: 0;
       z-index: 0;
-      transition: background 0.6s
+      transition: background 0.6s;
     }
 
     .blob {
@@ -44,7 +44,7 @@
       border-radius: 50%;
       filter: blur(80px);
       opacity: 0.5;
-      animation: float 8s ease-in-out infinite
+      animation: float 8s ease-in-out infinite;
     }
 
     .blob-1 {
@@ -52,7 +52,7 @@
       height: 300px;
       top: -50px;
       left: -50px;
-      animation-delay: 0s
+      animation-delay: 0s;
     }
 
     .blob-2 {
@@ -60,7 +60,7 @@
       height: 250px;
       bottom: 10%;
       right: -30px;
-      animation-delay: -3s
+      animation-delay: -3s;
     }
 
     .blob-3 {
@@ -68,22 +68,22 @@
       height: 200px;
       top: 40%;
       left: 30%;
-      animation-delay: -5s
+      animation-delay: -5s;
     }
 
     @keyframes float {
 
       0%,
       100% {
-        transform: translate(0, 0) scale(1)
+        transform: translate(0, 0) scale(1);
       }
 
       33% {
-        transform: translate(30px, -20px) scale(1.05)
+        transform: translate(30px, -20px) scale(1.05);
       }
 
       66% {
-        transform: translate(-20px, 15px) scale(0.95)
+        transform: translate(-20px, 15px) scale(0.95);
       }
     }
 
@@ -127,17 +127,17 @@
       transform: translateY(20px) scale(0.97);
       pointer-events: none;
       transition: opacity 0.4s ease, transform 0.4s ease;
-      scrollbar-width: none
+      scrollbar-width: none;
     }
 
     .page::-webkit-scrollbar {
-      display: none
+      display: none;
     }
 
     .page.active {
       opacity: 1;
       transform: translateY(0) scale(1);
-      pointer-events: auto
+      pointer-events: auto;
     }
 
     .nav-bar {
@@ -153,7 +153,7 @@
       display: flex;
       gap: 4px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: background 0.3s
+      transition: background 0.3s;
     }
 
     .nav-btn {
@@ -171,21 +171,21 @@
       opacity: 0.5;
       font-family: 'Outfit', sans-serif;
       font-size: 10px;
-      font-weight: 500
+      font-weight: 500;
     }
 
     .nav-btn.active {
       opacity: 1;
-      background: rgba(255, 255, 255, 0.2)
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .dark .nav-btn.active {
-      background: rgba(255, 255, 255, 0.12)
+      background: rgba(255, 255, 255, 0.12);
     }
 
     .nav-btn i {
       width: 20px;
-      height: 20px
+      height: 20px;
     }
 
     .glow-ring {
@@ -194,18 +194,18 @@
       border-radius: 50%;
       padding: 3px;
       background: linear-gradient(135deg, #7c3aed, #ec4899, #3b82f6);
-      animation: glow-pulse 3s ease-in-out infinite
+      animation: glow-pulse 3s ease-in-out infinite;
     }
 
     @keyframes glow-pulse {
 
       0%,
       100% {
-        box-shadow: 0 0 20px rgba(124, 58, 237, 0.4)
+        box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
       }
 
       50% {
-        box-shadow: 0 0 40px rgba(236, 72, 153, 0.6)
+        box-shadow: 0 0 40px rgba(236, 72, 153, 0.6);
       }
     }
 
@@ -214,7 +214,7 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      object-fit: cover
+      object-fit: cover;
     }
 
     .skill-chip {
@@ -223,37 +223,37 @@
       border-radius: 14px;
       font-size: 13px;
       font-weight: 500;
-      transition: transform 0.2s
+      transition: transform 0.2s;
     }
 
     .skill-chip:hover {
-      transform: scale(1.05)
+      transform: scale(1.05);
     }
 
     .progress-track {
       height: 6px;
       border-radius: 3px;
       overflow: hidden;
-      position: relative
+      position: relative;
     }
 
     .progress-fill {
       height: 100%;
       border-radius: 3px;
       transition: width 1s ease;
-      width: 0
+      width: 0;
     }
 
     .progress-fill.animate {
-      width: var(--w)
+      width: var(--w);
     }
 
     .project-card {
-      transition: transform 0.3s
+      transition: transform 0.3s;
     }
 
     .project-card:hover {
-      transform: translateY(-4px)
+      transform: translateY(-4px);
     }
 
     .theme-toggle {
@@ -271,38 +271,37 @@
       justify-content: center;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      transition: all 0.3s
+      transition: all 0.3s;
     }
 
     .fade-in {
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
     .fade-in.visible {
       opacity: 1;
-      transform: translateY(0)
+      transform: translateY(0);
     }
 
     .form-input {
       width: 100%;
-      padding: 12px 16px;
-      border-radius: 16px;
+      padding: 10px 12px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(8px);
       outline: none;
       font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-size: 13px;
       transition: all 0.3s;
-      color: black;
+      color: inherit;
     }
 
     .app-shell:not(.dark) .form-input {
       background: rgba(0, 0, 0, 0.03);
       border-color: rgba(0, 0, 0, 0.1);
-      color: #000;
     }
 
     .form-input:focus {
@@ -315,16 +314,16 @@
     }
 
     .cta-btn {
-      padding: 12px 32px;
-      border-radius: 18px;
+      padding: 10px 28px;
+      border-radius: 14px;
       border: none;
       font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
       position: relative;
-      overflow: hidden
+      overflow: hidden;
     }
 
     .cta-btn:hover {
@@ -333,7 +332,7 @@
     }
 
     .cta-btn:active {
-      transform: scale(0.97)
+      transform: scale(0.97);
     }
 
     .social-icon {
@@ -344,11 +343,11 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.3s
+      transition: all 0.3s;
     }
 
     .social-icon:hover {
-      transform: translateY(-3px)
+      transform: translateY(-3px);
     }
 
     /* Loading */
@@ -359,12 +358,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.5s
+      transition: opacity 0.5s;
     }
 
     .loader-overlay.hidden {
       opacity: 0;
-      pointer-events: none
+      pointer-events: none;
     }
 
     .loader-ring {
@@ -373,12 +372,12 @@
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, 0.1);
       border-top-color: rgba(124, 58, 237, 0.8);
-      animation: spin 0.8s linear infinite
+      animation: spin 0.8s linear infinite;
     }
 
     @keyframes spin {
       to {
-        transform: rotate(360deg)
+        transform: rotate(360deg);
       }
     }
 
@@ -394,12 +393,12 @@
       padding: 20px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s
+      transition: opacity 0.3s;
     }
 
     .modal-bg.open {
       opacity: 1;
-      pointer-events: auto
+      pointer-events: auto;
     }
 
     .modal-content {
@@ -409,11 +408,11 @@
       overflow-y: auto;
       padding: 24px;
       transition: transform 0.3s;
-      transform: scale(0.9)
+      transform: scale(0.9);
     }
 
     .modal-bg.open .modal-content {
-      transform: scale(1)
+      transform: scale(1);
     }
 
     .timeline-dot {
@@ -422,7 +421,7 @@
       border-radius: 50%;
       flex-shrink: 0;
       position: relative;
-      z-index: 1
+      z-index: 1;
     }
 
     .timeline-line {
@@ -464,10 +463,10 @@
         <div class="fade-in" style="transition-delay:0.1s">
           <h1 id="elName" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;margin-bottom:4px">Abdul Qayyum
           </h1>
-          <p id="elTitle" style="font-size:16px;opacity:0.7;font-weight:400">Emerging Backend Developer (.NET Core)</p>
+          <p id="elTitle" style="font-size:17px;opacity:0.9;font-weight:400">Passionate Learner in Backend</p>
         </div>
         <p id="elTagline" class="fade-in"
-          style="font-size:15px;opacity:0.7;max-width:280px;line-height:1.6;transition-delay:0.2s">Passionate about building robust backend solutions and modern web experiences.</p>
+          style="font-size:14px;opacity:0.5;max-width:280px;line-height:1.6;transition-delay:0.2s">Fresh & driven to master backend development, building clean code and scalable solutions.</p>
         <div class="fade-in" style="display:flex;gap:12px;transition-delay:0.4s">
           <a href="https://www.facebook.com/share/1MC2SzCxGX/" target="_blank" class="social-icon glass"
             style="color:inherit;text-decoration:none">
@@ -488,10 +487,7 @@
         <h2 class="fade-in" style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">
           About Me</h2>
         <div class="glass fade-in" style="padding:20px;margin-bottom:20px;transition-delay:0.1s">
-          <p id="elBio" style="font-size:14px;line-height:1.8;opacity:0.8">Hi, I'm Abdul Qayyum. I am a fresh and motivated 
-            Backend Developer specializing in modern .NET technologies. Currently working at Gluon ERP, I am dedicated 
-            to mastering scalable architectures, clean code practices, and building seamless user experiences through 
-            Static Web Development and Graphic Design. I'm a fast learner who thrives on solving complex challenges.</p>
+          <p id="elBio" style="font-size:14px;line-height:1.8;opacity:0.8">Hey, I'm Abdul Qayyum. I'm a driven junior backend developer at Gluon ERP, actively building expertise in ASP.NET and scalable solutions. I bring enthusiasm and fresh ideas combined with solid skills in web development (HTML, CSS, JS), Python (Django), and creative design (Canva). Based in Lahore, constantly learning and evolving as a developer.</p>
         </div>
         <h3 class="fade-in" style="font-size:16px;font-weight:600;margin-bottom:12px;transition-delay:0.15s">Skills</h3>
         <div class="fade-in" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;transition-delay:0.2s"
@@ -536,8 +532,8 @@
             </div>
             <div class="glass" style="padding:16px;flex:1">
               <p style="font-size:12px;opacity:0.5">Present</p>
-              <p style="font-weight:600;font-size:14px;margin:4px 0">Emerging Developer — Gluon ERP</p>
-              <p style="font-size:13px;opacity:0.6">Gaining hands-on experience with enterprise-level backend solutions and modern web design.
+              <p style="font-weight:600;font-size:14px;margin:4px 0">Backend Developer ASP.NET — Gluon ERP</p>
+              <p style="font-size:13px;opacity:0.6">Working on robust backend architectures and static web solutions.
               </p>
             </div>
           </div>
@@ -565,14 +561,13 @@
       <div style="padding-top:20px;max-width:500px;margin:0 auto">
         <h2 class="fade-in" id="elContactHeading"
           style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">Get In Touch</h2>
-        <form class="glass fade-in" style="padding:24px;transition-delay:0.1s" id="contactForm">
-          <label for="cName" style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px;color:black;">Name</label>
-          <input id="cName" class="form-input" placeholder="Your name" style="margin-bottom:16px">
-          <label for="cEmail" style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px;color:black;">Email</label>
-          <input id="cEmail" type="email" class="form-input" placeholder="you@email.com" style="margin-bottom:16px">
-          <label for="cMsg" style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px;color:black;">Message</label>
-          <textarea id="cMsg" class="form-input" rows="4" placeholder="Your message..."
-            style="margin-bottom:20px;resize:none"></textarea>
+        <form class="glass fade-in" style="padding:18px;transition-delay:0.1s" id="contactForm"><label for="cName"
+            style="font-size:12px;opacity:0.6;display:block;margin-bottom:3px">Name</label> <input id="cName"
+            class="form-input" placeholder="Your name" style="margin-bottom:12px"> <label for="cEmail"
+            style="font-size:12px;opacity:0.6;display:block;margin-bottom:3px">Email</label> <input id="cEmail"
+            type="email" class="form-input" placeholder="you@email.com" style="margin-bottom:12px"> <label for="cMsg"
+            style="font-size:12px;opacity:0.6;display:block;margin-bottom:3px">Message</label> <textarea id="cMsg"
+            class="form-input" rows="3" placeholder="Your message..." style="margin-bottom:16px;resize:none"></textarea>
           <button type="submit" class="cta-btn" style="width:100%">Send Message</button>
           <p id="formFeedback"
             style="text-align:center;margin-top:12px;font-size:13px;opacity:0;transition:opacity 0.3s"></p>
@@ -624,7 +619,7 @@
       { title: 'Backend ERP System', desc: 'Enterprise-grade ERP backend built with ABP Framework and ASP.NET Core, featuring multi-tenancy.', tags: ['ASP.NET Core', 'ABP Framework', 'SQL Server'], img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', url: 'erp-system.html', type: 'blog' },
       { title: 'GREF Insurance', desc: 'International insurance company website with a clean, trust-focused corporate design.', tags: ['HTML/CSS/JS', 'Professional'], img: './gref_thumb.png', url: 'https://evotech-solution.github.io/gref/', type: 'link' },
       { title: 'Leventure Travel', desc: 'A cinematic, high-end travel agency website with luxury storytelling and parallax effects.', tags: ['UI/UX', 'GSAP', 'HTML'], img: './leventure_thumb.png', url: 'https://digitaltashion.github.io/leventure/', type: 'link' },
-      { title: 'MS StoneLine Civil Engineer', desc: 'Professional portfolio and service showcase for a civil engineering and construction firm.', tags: ['Architecture', 'Static Web'], img: './mcsher_thumb.png', url: 'https://digitaltashion.github.io/mcsher/', type: 'link' },
+      { title: 'McSher Civil Engineer', desc: 'Professional portfolio and service showcase for a civil engineering and construction firm.', tags: ['Architecture', 'Static Web'], img: './mcsher_thumb.png', url: 'https://digitaltashion.github.io/mcsher/', type: 'link' },
       { title: 'SmileCut Saloon', desc: 'Modern and elegant website for a premium hair saloon, focusing on aesthetics and services.', tags: ['Beauty', 'Responsive'], img: './smilecut_thumb.png', url: 'https://evotech-solution.github.io/smilecut/', type: 'link' },
       { title: 'Fakhar Suzuki Center', desc: 'Service center website for Suzuki bike repairs, featuring garage management details.', tags: ['Automotive', 'HTML/CSS'], img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800', url: 'https://evotech-solution.github.io/fsc/', type: 'link' },
       { title: 'APAX POS Software', desc: 'Modern branding and POS software showcase for APAX software company.', tags: ['Software', 'SAAS UI'], img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800', url: 'https://apaxpos.online', type: 'link' }
@@ -652,12 +647,12 @@
 
     // Navigation
     let currentTab = 'home';
-    const switchTab = (tab) => {
+    const tabOrder = ['home', 'about', 'projects', 'contact'];
+    
+    function switchTab(tab) {
       if (tab === currentTab) return;
-      const btn = document.querySelector(`.nav-btn[data-tab="${tab}"]`);
-      if (!btn) return;
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelector(`.nav-btn[data-tab="${tab}"]`).classList.add('active');
       document.querySelector('.page.active').classList.remove('active');
       const page = document.getElementById('page-' + tab);
       page.classList.add('active');
@@ -665,20 +660,48 @@
       currentTab = tab;
       setTimeout(() => animateFadeIns(page), 50);
       if (tab === 'about') setTimeout(animateProgress, 300);
-      window.location.hash = tab;
-    };
+    }
 
     document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      btn.addEventListener('click', () => {
+        switchTab(btn.dataset.tab);
+      });
     });
 
-    // Handle deep links
-    window.addEventListener('load', () => {
-      const hash = window.location.hash.substring(1);
-      if (hash && ['home', 'about', 'projects', 'contact'].includes(hash)) {
-        switchTab(hash);
+    // Touch swipe detection for tab switching
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50; // minimum distance in pixels for swipe
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const swipeDistance = touchStartX - touchEndX;
+      
+      // Only trigger if swipe distance exceeds threshold
+      if (Math.abs(swipeDistance) < swipeThreshold) return;
+
+      const currentIndex = tabOrder.indexOf(currentTab);
+
+      if (swipeDistance > 0) {
+        // Swiped left - go to next tab
+        if (currentIndex < tabOrder.length - 1) {
+          switchTab(tabOrder[currentIndex + 1]);
+        }
+      } else {
+        // Swiped right - go to previous tab
+        if (currentIndex > 0) {
+          switchTab(tabOrder[currentIndex - 1]);
+        }
       }
-    });
+    }
 
 
 
@@ -755,10 +778,10 @@
 
     // Element SDK
     const defaultConfig = {
-      profile_name: 'Aryan',
-      profile_title: 'Emerging Backend Developer (.NET Core)',
-      profile_tagline: 'Passionate about building robust backend solutions and modern web experiences.',
-      about_bio: "Hi, I'm Aryan. I am a fresh and motivated Backend Developer specializing in modern .NET technologies. Currently working at Gluon ERP, I am dedicated to mastering scalable architectures and building seamless user experiences.",
+      profile_name: 'Abdul Qayyum',
+      profile_title: 'Passionate Learner in Backend',
+      profile_tagline: 'Fresh & driven to master backend development, building clean code and scalable solutions.',
+      about_bio: "Hey, I'm Abdul Qayyum. I'm a driven junior backend developer at Gluon ERP, actively building expertise in ASP.NET and scalable solutions. I bring enthusiasm and fresh ideas combined with solid skills in web development (HTML, CSS, JS), Python (Django), and creative design (Canva). Based in Lahore, constantly learning and evolving as a developer.",
       contact_heading: 'Get In Touch',
       background_color: '#0a0a1a',
       surface_color: '#7c3aed',
