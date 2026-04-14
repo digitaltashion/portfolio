@@ -302,6 +302,7 @@
     .app-shell:not(.dark) .form-input {
       background: rgba(0, 0, 0, 0.03);
       border-color: rgba(0, 0, 0, 0.1);
+      color: #000;
     }
 
     .form-input:focus {
@@ -463,11 +464,10 @@
         <div class="fade-in" style="transition-delay:0.1s">
           <h1 id="elName" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;margin-bottom:4px">Aryan
           </h1>
-          <p id="elTitle" style="font-size:16px;opacity:0.7;font-weight:400">Backend Developer (ASP.NET)</p>
+          <p id="elTitle" style="font-size:16px;opacity:0.7;font-weight:400">Emerging Backend Developer (.NET Core)</p>
         </div>
         <p id="elTagline" class="fade-in"
-          style="font-size:14px;opacity:0.5;max-width:280px;line-height:1.6;transition-delay:0.2s">Expert in backend
-          development, static web design, and graphic design.</p>
+          style="font-size:14px;opacity:0.5;max-width:280px;line-height:1.6;transition-delay:0.2s">Passionate about building robust backend solutions and modern web experiences.</p>
         <div class="fade-in" style="display:flex;gap:12px;transition-delay:0.4s">
           <a href="https://www.facebook.com/share/1MC2SzCxGX/" target="_blank" class="social-icon glass"
             style="color:inherit;text-decoration:none">
@@ -488,9 +488,10 @@
         <h2 class="fade-in" style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">
           About Me</h2>
         <div class="glass fade-in" style="padding:20px;margin-bottom:20px;transition-delay:0.1s">
-          <p id="elBio" style="font-size:14px;line-height:1.8;opacity:0.8">Hi, I'm Aryan. I work at Gluon ERP as a
-            Backend Developer specializing in ASP.NET. I'm also an expert in Static Web Development (HTML, CSS, JS),
-            proficient in Python (Django), and a skilled Graphic Designer (Canva). I am based in Lahore.</p>
+          <p id="elBio" style="font-size:14px;line-height:1.8;opacity:0.8">Hi, I'm Aryan. I am a fresh and motivated 
+            Backend Developer specializing in modern .NET technologies. Currently working at Gluon ERP, I am dedicated 
+            to mastering scalable architectures, clean code practices, and building seamless user experiences through 
+            Static Web Development and Graphic Design. I'm a fast learner who thrives on solving complex challenges.</p>
         </div>
         <h3 class="fade-in" style="font-size:16px;font-weight:600;margin-bottom:12px;transition-delay:0.15s">Skills</h3>
         <div class="fade-in" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;transition-delay:0.2s"
@@ -535,8 +536,8 @@
             </div>
             <div class="glass" style="padding:16px;flex:1">
               <p style="font-size:12px;opacity:0.5">Present</p>
-              <p style="font-weight:600;font-size:14px;margin:4px 0">Backend Developer ASP.NET — Gluon ERP</p>
-              <p style="font-size:13px;opacity:0.6">Working on robust backend architectures and static web solutions.
+              <p style="font-weight:600;font-size:14px;margin:4px 0">Emerging Developer — Gluon ERP</p>
+              <p style="font-size:13px;opacity:0.6">Gaining hands-on experience with enterprise-level backend solutions and modern web design.
               </p>
             </div>
           </div>
@@ -564,13 +565,14 @@
       <div style="padding-top:20px;max-width:500px;margin:0 auto">
         <h2 class="fade-in" id="elContactHeading"
           style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px">Get In Touch</h2>
-        <form class="glass fade-in" style="padding:24px;transition-delay:0.1s" id="contactForm"><label for="cName"
-            style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px">Name</label> <input id="cName"
-            class="form-input" placeholder="Your name" style="margin-bottom:16px"> <label for="cEmail"
-            style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px">Email</label> <input id="cEmail"
-            type="email" class="form-input" placeholder="you@email.com" style="margin-bottom:16px"> <label for="cMsg"
-            style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px">Message</label> <textarea id="cMsg"
-            class="form-input" rows="4" placeholder="Your message..." style="margin-bottom:20px;resize:none"></textarea>
+        <form class="glass fade-in" style="padding:24px;transition-delay:0.1s" id="contactForm">
+          <label for="cName" style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px;color:inherit">Name</label>
+          <input id="cName" class="form-input" placeholder="Your name" style="margin-bottom:16px">
+          <label for="cEmail" style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px;color:inherit">Email</label>
+          <input id="cEmail" type="email" class="form-input" placeholder="you@email.com" style="margin-bottom:16px">
+          <label for="cMsg" style="font-size:13px;opacity:0.6;display:block;margin-bottom:4px;color:inherit">Message</label>
+          <textarea id="cMsg" class="form-input" rows="4" placeholder="Your message..."
+            style="margin-bottom:20px;resize:none"></textarea>
           <button type="submit" class="cta-btn" style="width:100%">Send Message</button>
           <p id="formFeedback"
             style="text-align:center;margin-top:12px;font-size:13px;opacity:0;transition:opacity 0.3s"></p>
@@ -650,20 +652,32 @@
 
     // Navigation
     let currentTab = 'home';
+    const switchTab = (tab) => {
+      if (tab === currentTab) return;
+      const btn = document.querySelector(`.nav-btn[data-tab="${tab}"]`);
+      if (!btn) return;
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector('.page.active').classList.remove('active');
+      const page = document.getElementById('page-' + tab);
+      page.classList.add('active');
+      page.scrollTop = 0;
+      currentTab = tab;
+      setTimeout(() => animateFadeIns(page), 50);
+      if (tab === 'about') setTimeout(animateProgress, 300);
+      window.location.hash = tab;
+    };
+
     document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab;
-        if (tab === currentTab) return;
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelector('.page.active').classList.remove('active');
-        const page = document.getElementById('page-' + tab);
-        page.classList.add('active');
-        page.scrollTop = 0;
-        currentTab = tab;
-        setTimeout(() => animateFadeIns(page), 50);
-        if (tab === 'about') setTimeout(animateProgress, 300);
-      });
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // Handle deep links
+    window.addEventListener('load', () => {
+      const hash = window.location.hash.substring(1);
+      if (hash && ['home', 'about', 'projects', 'contact'].includes(hash)) {
+        switchTab(hash);
+      }
     });
 
 
@@ -742,9 +756,9 @@
     // Element SDK
     const defaultConfig = {
       profile_name: 'Aryan',
-      profile_title: 'Backend Developer (ASP.NET)',
-      profile_tagline: 'Expert in backend development, static web design, and graphic design.',
-      about_bio: "Hi, I'm Aryan. I work at Gluon ERP as a Backend Developer specializing in ASP.NET. I'm also an expert in Static Web Development (HTML, CSS, JS), proficient in Python (Django), and a skilled Graphic Designer (Canva). I am based in Lahore.",
+      profile_title: 'Emerging Backend Developer (.NET Core)',
+      profile_tagline: 'Passionate about building robust backend solutions and modern web experiences.',
+      about_bio: "Hi, I'm Aryan. I am a fresh and motivated Backend Developer specializing in modern .NET technologies. Currently working at Gluon ERP, I am dedicated to mastering scalable architectures and building seamless user experiences.",
       contact_heading: 'Get In Touch',
       background_color: '#0a0a1a',
       surface_color: '#7c3aed',
