@@ -1,0 +1,1429 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield — Cyber Security Awareness</title>
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e1a;
+            --bg2: #0f1629;
+            --surface: #141b2e;
+            --accent: #00e5a0;
+            --accent2: #4b7bff;
+            --danger: #ff4d6d;
+            --warn: #ffb547;
+            --text: #e6ecff;
+            --muted: #8892b0;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        body {
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(75, 123, 255, 0.15), transparent),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(0, 229, 160, 0.1), transparent),
+                var(--bg);
+            min-height: 100%;
+        }
+
+        .glass {
+            background: rgba(20, 27, 46, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .glass-hover {
+            transition: all .3s ease;
+        }
+
+        .glass-hover:hover {
+            border-color: rgba(0, 229, 160, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 229, 160, 0.1);
+        }
+
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(75, 123, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(75, 123, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #0a0e1a;
+            font-weight: 600;
+            padding: .75rem 1.5rem;
+            border-radius: 10px;
+            transition: all .3s;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 160, 0.3);
+        }
+
+        .btn-ghost {
+            border: 1px solid var(--border);
+            padding: .75rem 1.5rem;
+            border-radius: 10px;
+            color: var(--text);
+            transition: all .3s;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: .5rem .75rem;
+            color: var(--muted);
+            font-size: .9rem;
+            cursor: pointer;
+            transition: color .2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: .75rem;
+            right: .75rem;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            padding: .25rem .6rem;
+            border-radius: 999px;
+            font-size: .7rem;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .b-green {
+            background: rgba(0, 229, 160, 0.1);
+            color: var(--accent);
+            border-color: rgba(0, 229, 160, 0.3);
+        }
+
+        .b-blue {
+            background: rgba(75, 123, 255, 0.1);
+            color: var(--accent2);
+            border-color: rgba(75, 123, 255, 0.3);
+        }
+
+        .b-red {
+            background: rgba(255, 77, 109, 0.1);
+            color: var(--danger);
+            border-color: rgba(255, 77, 109, 0.3);
+        }
+
+        .b-yellow {
+            background: rgba(255, 181, 71, 0.1);
+            color: var(--warn);
+            border-color: rgba(255, 181, 71, 0.3);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn .5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(.9);
+                opacity: .7;
+            }
+
+            100% {
+                transform: scale(1.8);
+                opacity: 0;
+            }
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .shield-icon {
+            width: 180px;
+            height: 180px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width .6s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease;
+        }
+
+        .accordion-content.open {
+            max-height: 500px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="url"],
+        textarea,
+        select {
+            background: rgba(10, 14, 26, 0.6);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: .75rem 1rem;
+            border-radius: 10px;
+            width: 100%;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--accent);
+        }
+
+        .check-item {
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .check-item input {
+            display: none;
+        }
+
+        .check-box {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+
+        .check-item input:checked~.check-box {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .check-item input:checked~.check-box svg {
+            opacity: 1;
+        }
+
+        .check-box svg {
+            opacity: 0;
+            transition: opacity .2s;
+            color: #0a0e1a;
+        }
+
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .6s;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2a3350;
+        }
+
+        .highlight-suspicious {
+            background: rgba(255, 77, 109, 0.2);
+            border-bottom: 2px dashed var(--danger);
+            cursor: pointer;
+            padding: 0 3px;
+            border-radius: 3px;
+        }
+
+        .highlight-suspicious:hover {
+            background: rgba(255, 77, 109, 0.35);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #0a0e1a;
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: .5rem .75rem;
+            border-radius: 8px;
+            font-size: .8rem;
+            z-index: 50;
+            max-width: 240px;
+            pointer-events: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+        }
+
+        .tab-btn {
+            padding: .6rem 1.2rem;
+            border-radius: 10px;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: .9rem;
+            transition: all .2s;
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 229, 160, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0, 229, 160, 0.3);
+        }
+
+        .flow-node {
+            background: rgba(20, 27, 46, 0.8);
+            border: 1px solid var(--border);
+            padding: .75rem 1rem;
+            border-radius: 10px;
+            font-size: .85rem;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-option {
+            background: rgba(20, 27, 46, 0.6);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all .2s;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent2);
+            background: rgba(75, 123, 255, 0.05);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--accent);
+            background: rgba(0, 229, 160, 0.1);
+        }
+
+        .quiz-option.wrong {
+            border-color: var(--danger);
+            background: rgba(255, 77, 109, 0.1);
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, rgba(20, 27, 46, 0.9), rgba(15, 22, 41, 0.9));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+        }
+
+        .email-sim {
+            background: #fff;
+            color: #222;
+            border-radius: 12px;
+            padding: 1.25rem;
+            font-family: Arial, sans-serif;
+            font-size: .9rem;
+            line-height: 1.6;
+        }
+
+        .email-sim .email-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: .75rem;
+            margin-bottom: .75rem;
+        }
+
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full"><!-- NAV -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-[#0a0e1a]/80 border-b border-[var(--border)]">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('home')">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center"
+                    style="background:linear-gradient(135deg,var(--accent),var(--accent2));"><i
+                        data-lucide="shield-check" class="w-5 h-5 text-[#0a0e1a]"></i>
+                </div><span class="text-lg font-bold" id="brand-name">CyberShield</span>
+            </div>
+            <div class="hidden lg:flex items-center gap-1"><a class="nav-link active" data-page="home"
+                    onclick="navigate('home')">Home</a> <a class="nav-link" data-page="attacks"
+                    onclick="navigate('attacks')">Attacks</a> <a class="nav-link" data-page="guides"
+                    onclick="navigate('guides')">Guides</a> <a class="nav-link" data-page="tools"
+                    onclick="navigate('tools')">Tools</a> <a class="nav-link" data-page="quiz"
+                    onclick="navigate('quiz')">Quiz</a> <a class="nav-link" data-page="blog"
+                    onclick="navigate('blog')">Blog</a> <a class="nav-link" data-page="downloads"
+                    onclick="navigate('downloads')">Downloads</a> <a class="nav-link" data-page="about"
+                    onclick="navigate('about')">About</a>
+            </div><button class="lg:hidden text-[var(--muted)]" onclick="toggleMobileMenu()"><i data-lucide="menu"
+                    class="w-6 h-6"></i></button>
+        </nav>
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-[var(--border)] px-6 py-3 flex-col gap-1"><a
+                class="nav-link block" onclick="navigate('home')">Home</a> <a class="nav-link block"
+                onclick="navigate('attacks')">Attacks</a> <a class="nav-link block"
+                onclick="navigate('guides')">Guides</a> <a class="nav-link block" onclick="navigate('tools')">Tools</a>
+            <a class="nav-link block" onclick="navigate('quiz')">Quiz</a> <a class="nav-link block"
+                onclick="navigate('blog')">Blog</a> <a class="nav-link block"
+                onclick="navigate('downloads')">Downloads</a> <a class="nav-link block"
+                onclick="navigate('about')">About</a>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-6 py-10"><!-- HOME -->
+        <section id="page-home" class="page active">
+            <div class="grid lg:grid-cols-2 gap-10 items-center py-10">
+                <div><span class="badge b-green mb-4"><span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+                        Final Year Project • Interactive</span>
+                    <h1 class="text-4xl md:text-6xl font-bold mt-5 leading-tight" id="hero-title">Stay <span
+                            style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;">Safe</span>
+                        in a Connected World.</h1>
+                    <p class="text-[var(--muted)] mt-5 text-lg max-w-xl" id="hero-subtitle">Learn real-world cyber
+                        threats, practice detecting scams, and use interactive tools to check your digital safety —
+                        built for students &amp; non-technical users.</p>
+                    <div class="flex flex-wrap gap-3 mt-8"><button class="btn-primary" onclick="navigate('tools')"><i
+                                data-lucide="zap" class="w-4 h-4"></i> Start Learning</button> <button class="btn-ghost"
+                            onclick="navigate('quiz')"><i data-lucide="brain" class="w-4 h-4"></i> Take Quiz</button>
+                    </div>
+                </div>
+                <div class="relative flex items-center justify-center">
+                    <div
+                        class="glass p-10 grid-bg w-full max-w-md aspect-square flex items-center justify-center relative overflow-hidden">
+                        <div class="shield-icon floating relative">
+                            <div class="absolute inset-0 rounded-full pulse-ring"></div>
+                            <div class="w-40 h-40 rounded-full flex items-center justify-center"
+                                style="background:radial-gradient(circle, rgba(0,229,160,0.3), transparent 70%);"><i
+                                    data-lucide="shield-check" class="w-24 h-24" style="color:var(--accent);"></i>
+                            </div>
+                        </div>
+                        <div class="absolute top-6 left-6 mono text-xs text-[var(--accent)]">
+                            &gt; scanning...
+                        </div>
+                        <div class="absolute top-6 right-6 mono text-xs text-[var(--accent2)]">
+                            SECURE
+                        </div>
+                        <div class="absolute bottom-6 left-6 mono text-xs text-[var(--muted)]">
+                            0x7F2A
+                        </div>
+                        <div class="absolute bottom-6 right-6 mono text-xs text-[var(--muted)]">
+                            AES-256
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Counters -->
+            <div class="grid md:grid-cols-4 gap-4 mt-10">
+                <div class="glass p-6 glass-hover">
+                    <div class="text-3xl font-bold counter" data-target="4500">
+                        0
+                    </div>
+                    <div class="text-[var(--muted)] text-sm mt-1">
+                        Cyber Attacks Daily
+                    </div>
+                </div>
+                <div class="glass p-6 glass-hover">
+                    <div class="text-3xl font-bold counter" data-target="83">
+                        0
+                    </div>
+                    <div class="text-[var(--muted)] text-sm mt-1">
+                        % Phishing Success
+                    </div>
+                </div>
+                <div class="glass p-6 glass-hover">
+                    <div class="text-3xl font-bold counter" data-target="1200">
+                        0
+                    </div>
+                    <div class="text-[var(--muted)] text-sm mt-1">
+                        PK Scams Reported/mo
+                    </div>
+                </div>
+                <div class="glass p-6 glass-hover">
+                    <div class="text-3xl font-bold counter" data-target="6">
+                        0
+                    </div>
+                    <div class="text-[var(--muted)] text-sm mt-1">
+                        Interactive Tools
+                    </div>
+                </div>
+            </div><!-- Preview -->
+            <h2 class="text-2xl md:text-3xl font-bold mt-16 mb-6">Explore CyberShield</h2>
+            <div class="grid md:grid-cols-3 gap-5">
+                <div class="glass p-6 glass-hover cursor-pointer" onclick="navigate('attacks')">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                        style="background:rgba(255,77,109,0.15);">
+                        <i data-lucide="swords" class="w-6 h-6" style="color:var(--danger);"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg">Cyber Attacks</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Learn phishing, malware, ransomware &amp; social
+                        engineering with Pakistani case studies.</p>
+                </div>
+                <div class="glass p-6 glass-hover cursor-pointer" onclick="navigate('tools')">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                        style="background:rgba(0,229,160,0.15);">
+                        <i data-lucide="wrench" class="w-6 h-6" style="color:var(--accent);"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg">Interactive Tools</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Password checker, URL analyzer, phishing simulator &amp;
+                        risk score calculator.</p>
+                </div>
+                <div class="glass p-6 glass-hover cursor-pointer" onclick="navigate('quiz')">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                        style="background:rgba(75,123,255,0.15);">
+                        <i data-lucide="award" class="w-6 h-6" style="color:var(--accent2);"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg">Test Yourself</h3>
+                    <p class="text-[var(--muted)] text-sm mt-2">Take quizzes, earn badges (Beginner → Cyber Hero) and
+                        track your progress.</p>
+                </div>
+            </div>
+        </section><!-- ATTACKS -->
+        <section id="page-attacks" class="page">
+            <div class="mb-8"><span class="badge b-red"><i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                    Threats</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">Common Cyber Attacks</h1>
+                <p class="text-[var(--muted)] mt-3 max-w-2xl">Understand how attackers target everyday users — with real
+                    examples from Pakistan.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-5" id="attacks-grid"></div>
+        </section><!-- GUIDES -->
+        <section id="page-guides" class="page">
+            <div class="mb-8"><span class="badge b-blue"><i data-lucide="book-open" class="w-3 h-3"></i> Guides</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">Protection Guides</h1>
+                <p class="text-[var(--muted)] mt-3 max-w-2xl">Step-by-step tutorials to harden your digital life.</p>
+            </div>
+            <div class="space-y-4" id="guides-container"></div>
+        </section><!-- TOOLS -->
+        <section id="page-tools" class="page">
+            <div class="mb-8"><span class="badge b-green"><i data-lucide="wrench" class="w-3 h-3"></i> Core
+                    Feature</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">Security Tools</h1>
+                <p class="text-[var(--muted)] mt-3 max-w-2xl">Hands-on tools to check, simulate and improve your
+                    security.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-6" id="tool-tabs"><button class="tab-btn active" data-tool="password">🔐
+                    Password</button> <button class="tab-btn" data-tool="url">🔗 URL Safety</button> <button
+                    class="tab-btn" data-tool="phishing">🎣 Phishing Sim</button> <button class="tab-btn"
+                    data-tool="risk">📊 Risk Analyzer</button> <button class="tab-btn" data-tool="email">📧 Email
+                    Analyzer</button> <button class="tab-btn" data-tool="checklist">📱 Device Safety</button>
+            </div><!-- Password -->
+            <div class="tool-panel glass p-6 md:p-8" data-tool="password">
+                <h2 class="text-2xl font-bold mb-2">Password Strength Checker</h2>
+                <p class="text-[var(--muted)] text-sm mb-5">Powered by zxcvbn — the same algorithm Dropbox uses.</p>
+                <div class="flex gap-2 items-center"><input type="text" id="pwd-input"
+                        placeholder="Type a password to analyze..." autocomplete="off"> <button class="btn-ghost"
+                        onclick="togglePwd()"><i data-lucide="eye" class="w-4 h-4" id="pwd-eye"></i></button>
+                </div>
+                <div class="mt-5">
+                    <div class="flex justify-between text-sm mb-2"><span id="pwd-label"
+                            class="text-[var(--muted)]">Strength: —</span> <span id="pwd-crack"
+                            class="mono text-xs text-[var(--muted)]"></span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="pwd-bar" class="progress-fill" style="width:0%;"></div>
+                    </div>
+                </div>
+                <div id="pwd-tips" class="mt-5 text-sm text-[var(--muted)] space-y-1"></div>
+            </div><!-- URL -->
+            <div class="tool-panel glass p-6 md:p-8 hidden" data-tool="url">
+                <h2 class="text-2xl font-bold mb-2">URL Safety Checker</h2>
+                <p class="text-[var(--muted)] text-sm mb-5">Analyze a link for common red flags before you click.</p>
+                <div class="flex flex-col md:flex-row gap-2"><input type="url" id="url-input"
+                        placeholder="https://example.com/..."> <button class="btn-primary" onclick="checkURL()"><i
+                            data-lucide="search" class="w-4 h-4"></i> Analyze</button>
+                </div>
+                <div id="url-result" class="mt-6"></div>
+            </div><!-- Phishing Sim -->
+            <div class="tool-panel glass p-6 md:p-8 hidden" data-tool="phishing">
+                <h2 class="text-2xl font-bold mb-2">Phishing Simulator</h2>
+                <p class="text-[var(--muted)] text-sm mb-5">Can you spot the scam? Choose wisely.</p>
+                <div id="phish-stage"></div>
+            </div><!-- Risk -->
+            <div class="tool-panel glass p-6 md:p-8 hidden" data-tool="risk">
+                <h2 class="text-2xl font-bold mb-2">Am I Safe? Risk Analyzer</h2>
+                <p class="text-[var(--muted)] text-sm mb-5">Answer a few questions to get your personal cyber risk
+                    score.</p>
+                <div id="risk-questions"></div>
+                <div id="risk-result" class="hidden mt-6"></div>
+            </div><!-- Email Analyzer -->
+            <div class="tool-panel glass p-6 md:p-8 hidden" data-tool="email">
+                <h2 class="text-2xl font-bold mb-2">Fake Email Analyzer</h2>
+                <p class="text-[var(--muted)] text-sm mb-5">Click on the highlighted red-flags to learn why they're
+                    suspicious.</p>
+                <div class="email-sim relative">
+                    <div class="email-header">
+                        <div>
+                            <strong>From:</strong> <span class="highlight-suspicious"
+                                data-tip="Mismatched domain! Real HBL emails come from @hbl.com, not @hbI-alerts.net (capital i instead of l).">HBL
+                                Bank Security &lt;noreply@hbI-alerts.net&gt;</span>
+                        </div>
+                        <div>
+                            <strong>To:</strong> you@gmail.com
+                        </div>
+                        <div>
+                            <strong>Subject:</strong> <span class="highlight-suspicious"
+                                data-tip="Creates urgency/fear — a classic phishing pressure tactic.">⚠ URGENT: Your
+                                Account Will Be Suspended in 24 Hours!</span>
+                        </div>
+                    </div>
+                    <p>Dear <span class="highlight-suspicious"
+                            data-tip="Generic greeting — real banks use your actual name.">Valued Customer</span>,</p>
+                    <p class="mt-2">We detected <span class="highlight-suspicious"
+                            data-tip="Vague threat with no specifics — designed to cause panic.">unusual activity</span>
+                        on your account. To avoid permanent suspension, please <span class="highlight-suspicious"
+                            data-tip="Suspicious link — hover shows a fake domain, not hbl.com.">verify your identity
+                            here</span> within 24 hours.</p>
+                    <p class="mt-2">You will need to provide your <span class="highlight-suspicious"
+                            data-tip="No legitimate bank will EVER ask you for your PIN or full password by email.">full
+                            password, CNIC, and ATM PIN</span>.</p>
+                    <p class="mt-3">Regards,<br>
+                        HBL <span class="highlight-suspicious"
+                            data-tip="Spelling/grammar errors are common phishing indicators.">Seccurity Team</span></p>
+                </div>
+                <p class="text-xs text-[var(--muted)] mt-3">💡 Tap/click each highlighted phrase on the fake email
+                    above.</p>
+            </div><!-- Checklist -->
+            <div class="tool-panel glass p-6 md:p-8 hidden" data-tool="checklist">
+                <h2 class="text-2xl font-bold mb-2">Device Safety Checklist</h2>
+                <p class="text-[var(--muted)] text-sm mb-5">Tick off the habits you already practice.</p>
+                <div class="mb-5">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Your safety level</span><span id="check-percent" class="font-semibold">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="check-bar" class="progress-fill"
+                            style="width:0%; background:linear-gradient(90deg,var(--accent),var(--accent2));"></div>
+                    </div>
+                </div>
+                <div id="checklist-items" class="grid md:grid-cols-2 gap-3"></div>
+            </div>
+        </section><!-- QUIZ -->
+        <section id="page-quiz" class="page">
+            <div class="mb-8"><span class="badge b-blue"><i data-lucide="award" class="w-3 h-3"></i> Quiz</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">Test Your Knowledge</h1>
+                <p class="text-[var(--muted)] mt-3 max-w-2xl">10 questions • Earn a badge • Timer optional</p>
+            </div>
+            <div id="quiz-container" class="glass p-6 md:p-8"></div>
+        </section><!-- BLOG -->
+        <section id="page-blog" class="page">
+            <div class="mb-8"><span class="badge b-yellow"><i data-lucide="newspaper" class="w-3 h-3"></i> News &amp;
+                    Tips</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">Cyber Blog</h1>
+                <p class="text-[var(--muted)] mt-3 max-w-2xl">Latest scams, breaches, and safety tips.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5" id="blog-grid"></div>
+        </section><!-- DOWNLOADS -->
+        <section id="page-downloads" class="page">
+            <div class="mb-8"><span class="badge b-green"><i data-lucide="download" class="w-3 h-3"></i>
+                    Resources</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">Downloads</h1>
+                <p class="text-[var(--muted)] mt-3 max-w-2xl">Free PDF guides to keep &amp; share.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-5" id="downloads-grid"></div>
+        </section><!-- ABOUT -->
+        <section id="page-about" class="page">
+            <div class="mb-8"><span class="badge b-blue"><i data-lucide="info" class="w-3 h-3"></i> About</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-4">About CyberShield</h1>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="glass p-6 lg:col-span-2">
+                    <h3 class="text-xl font-semibold mb-3">Project Purpose</h3>
+                    <p class="text-[var(--muted)] leading-relaxed">CyberShield is a Final Year Project built to raise
+                        cyber security awareness among students and non-technical users in Pakistan. Rather than static
+                        articles, it uses interactive tools, simulations, and gamified learning to help people
+                        <em>practice</em> identifying threats — not just read about them.</p>
+                    <h3 class="text-xl font-semibold mt-6 mb-3">Features</h3>
+                    <ul class="text-[var(--muted)] space-y-2">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 mt-1 text-[var(--accent)]"></i> 6
+                            interactive security tools</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 mt-1 text-[var(--accent)]"></i>
+                            Real Pakistani scam case studies</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 mt-1 text-[var(--accent)]"></i>
+                            Gamified quizzes with badges</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 mt-1 text-[var(--accent)]"></i>
+                            Progress saved locally (privacy-first)</li>
+                    </ul>
+                </div>
+                <div class="glass p-6">
+                    <div class="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4"
+                        style="background:linear-gradient(135deg,var(--accent),var(--accent2));"><i data-lucide="user"
+                            class="w-10 h-10 text-[#0a0e1a]"></i>
+                    </div>
+                    <h3 class="text-center text-lg font-semibold">Developer</h3>
+                    <p class="text-center text-[var(--muted)] text-sm mt-1">FYP Student • Cyber Security Track</p>
+                    <div class="mt-4 space-y-2 text-sm text-[var(--muted)]">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="graduation-cap" class="w-4 h-4"></i> BS Computer Science
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="code" class="w-4 h-4"></i> HTML · CSS · JS
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-4 h-4"></i> 2024 - 2025
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="border-t border-[var(--border)] mt-16 py-8 text-center text-sm text-[var(--muted)]">
+        <div id="footer-text">
+            © 2025 CyberShield — A Final Year Project on Cyber Security Awareness
+        </div>
+    </footer><!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden glass px-4 py-3 text-sm max-w-sm"></div>
+    <script>
+        /* ============ DATA ============ */
+        const ATTACKS = [
+            {
+                icon: 'fish', color: 'var(--danger)', bg: 'rgba(255,77,109,0.15)', title: 'Phishing',
+                desc: 'Attackers impersonate trusted brands (banks, JazzCash, Easypaisa) to trick you into revealing passwords or OTPs.',
+                pk: 'In 2023, thousands of JazzCash users received fake SMS claiming "your account is blocked — click here". Victims lost millions.',
+                flow: ['Fake SMS/Email', 'User Clicks Link', 'Fake Login Page', 'Credentials Stolen']
+            },
+            {
+                icon: 'bug', color: 'var(--warn)', bg: 'rgba(255,181,71,0.15)', title: 'Malware',
+                desc: 'Malicious software that infects your device through cracked apps, pirated software or suspicious downloads.',
+                pk: 'Fake "HBL Mobile App" APKs distributed on WhatsApp stole banking credentials from Pakistani users in 2022.',
+                flow: ['Shady Download', 'Install on Device', 'Hidden Background Process', 'Data Exfiltration']
+            },
+            {
+                icon: 'lock', color: 'var(--accent2)', bg: 'rgba(75,123,255,0.15)', title: 'Ransomware',
+                desc: 'Encrypts all your files and demands payment (usually in crypto) to unlock them.',
+                pk: 'K-Electric suffered a Netwalker ransomware attack in 2020 — $7 million demanded for data decryption.',
+                flow: ['Phishing Email', 'Malicious Attachment', 'Files Encrypted', 'Ransom Demanded']
+            },
+            {
+                icon: 'users', color: 'var(--accent)', bg: 'rgba(0,229,160,0.15)', title: 'Social Engineering',
+                desc: 'Psychological manipulation — scammers call pretending to be from your bank or a "government officer" to extract OTPs.',
+                pk: 'The infamous "BISP helpline scam" — scammers call calling themselves BISP officials and extract CNIC + OTPs from beneficiaries.',
+                flow: ['Phone Call / DM', 'Build Trust / Fear', 'Ask for OTP / PIN', 'Account Drained']
+            }
+        ];
+
+        const GUIDES = [
+            {
+                title: 'Secure Your Social Media', icon: 'lock', steps: [
+                    'Enable Two-Factor Authentication (2FA) in Settings → Security',
+                    'Review active sessions and log out unknown devices',
+                    'Set your profile to Private; restrict who can message you',
+                    'Never share OTPs, even with "Facebook Support"',
+                    'Use unique passwords — not the same one as your email'
+                ]
+            },
+            {
+                title: 'Avoid Online Scams', icon: 'shield-alert', steps: [
+                    'Verify sender before clicking any SMS/email link',
+                    'Never pay "processing fees" to claim prizes you didn\'t enter',
+                    'If a deal sounds too good to be true — it is',
+                    'Confirm JazzCash/Easypaisa transactions only via official app',
+                    'Call your bank on the number printed on your ATM card, not SMS'
+                ]
+            },
+            {
+                title: 'Safe Browsing Habits', icon: 'globe', steps: [
+                    'Look for 🔒 HTTPS — especially on payment/login pages',
+                    'Avoid using public Wi-Fi for banking (use mobile data)',
+                    'Install a reputable ad-blocker (uBlock Origin)',
+                    'Keep your browser & OS updated',
+                    'Download apps only from Play Store / App Store — not APK sites'
+                ]
+            }
+        ];
+
+        const CHECKLIST = [
+            'My phone has a screen lock (PIN / fingerprint / face)',
+            'I have enabled 2FA on my email',
+            'I have enabled 2FA on my social media',
+            'My operating system is up to date',
+            'I use a password manager or strong unique passwords',
+            'I backup my important files regularly',
+            'I have antivirus or rely on built-in security',
+            'I only install apps from official stores',
+            'I never share OTPs with anyone',
+            'I lock my laptop when stepping away'
+        ];
+
+        const RISK_Q = [
+            { q: 'Do you use a unique strong password for your email?', good: 'yes' },
+            { q: 'Do you have 2-Factor Authentication enabled on important accounts?', good: 'yes' },
+            { q: 'Do you click links inside SMS or WhatsApp from unknown numbers?', good: 'no' },
+            { q: 'Do you reuse the same password on multiple sites?', good: 'no' },
+            { q: 'Do you keep your phone and apps regularly updated?', good: 'yes' },
+            { q: 'Have you ever shared your OTP with someone over phone?', good: 'no' },
+        ];
+
+        const PHISH_SCENARIOS = [
+            { from: 'HBL Alerts', msg: 'Dear customer, your account will be blocked. Verify CNIC + PIN at hbl-verify.xyz within 1 hour.', safe: false, expl: '🚨 Fake! HBL never asks for PIN. The domain hbl-verify.xyz is not official.' },
+            { from: 'Mom (WhatsApp)', msg: 'Beta, I\'m sending 10,000 on JazzCash. Please confirm when received.', safe: true, expl: '✅ Looks like a normal family message — no links, no pressure. Still confirm via a call!' },
+            { from: 'Facebook Security', msg: 'Someone logged in from Russia. To secure account, send us the 6-digit code we just SMS\'d you.', safe: false, expl: '🚨 Classic account-takeover scam. Facebook NEVER asks you to share codes.' },
+            { from: 'Unknown (+92 302)', msg: 'You won Rs. 25,00,000 in BISP lucky draw! Send processing fee of Rs. 500 on this JazzCash number.', safe: false, expl: '🚨 BISP does no lucky draws. This is a classic advance-fee scam.' },
+            { from: 'Daraz', msg: 'Your order #DZ91842 has been shipped. Track here: daraz.pk/track/91842', safe: true, expl: '✅ Looks legitimate — matches the official daraz.pk domain and no credential requests.' }
+        ];
+
+        const QUIZ = [
+            { q: 'What does HTTPS indicate?', opts: ['Site is fast', 'Connection is encrypted', 'Site is free', 'Nothing important'], a: 1 },
+            { q: 'Which is a strong password?', opts: ['123456', 'password', 'Tr0ub4dor&3-2kX', 'qwerty'], a: 2 },
+            { q: 'You get an SMS: "Your account is blocked, click link". What do you do?', opts: ['Click quickly', 'Ignore / verify via official app', 'Forward to friends', 'Reply with CNIC'], a: 1 },
+            { q: '2FA stands for?', opts: ['Two-Factor Authentication', 'Too Fast Access', 'Two File Archive', 'Two-Factor Antivirus'], a: 0 },
+            { q: 'Safest place to download apps?', opts: ['Random APK sites', 'Official app store', 'WhatsApp link', 'Email attachment'], a: 1 },
+            { q: 'Ransomware does what?', opts: ['Speeds up PC', 'Encrypts files and demands money', 'Cleans viruses', 'Updates Windows'], a: 1 },
+            { q: 'Public Wi-Fi is safe for banking?', opts: ['Yes, always', 'Only at airports', 'No, avoid it', 'Only if free'], a: 2 },
+            { q: 'Someone calls claiming to be from bank asking OTP. You:', opts: ['Give OTP', 'Hang up', 'Shout at them', 'Give partial OTP'], a: 1 },
+            { q: 'Phishing mainly targets:', opts: ['CPU', 'Human trust', 'Router', 'Monitor'], a: 1 },
+            { q: 'Best first step after suspecting a hack:', opts: ['Ignore', 'Change password & enable 2FA', 'Reinstall Windows', 'Buy new phone'], a: 1 }
+        ];
+
+        const BLOG = [
+            { tag: 'Scam Alert', color: 'b-red', title: 'Fake BISP Lucky Draw WhatsApp Scam Spreads Again', date: '2 days ago', excerpt: 'Scammers impersonating BISP are asking for "processing fees" to release fake prize money. FIA has issued a warning...' },
+            { tag: 'Tip', color: 'b-green', title: 'How to Spot a Fake JazzCash SMS in 10 Seconds', date: '1 week ago', excerpt: 'Look at the sender ID, the domain, the urgency, and the link. Here\'s a quick visual guide...' },
+            { tag: 'Breach', color: 'b-yellow', title: 'Major Ride-Hailing App Data Leak — What to Do', date: '2 weeks ago', excerpt: 'Millions of user records were leaked including phone numbers. Here is how you check and protect yourself...' },
+            { tag: 'Guide', color: 'b-blue', title: 'Beginner\'s Guide to Password Managers (Urdu-Friendly)', date: '3 weeks ago', excerpt: 'Bitwarden, 1Password, or browser-built? A simple breakdown for new users...' },
+            { tag: 'News', color: 'b-yellow', title: 'PTA Launches New Anti-Phishing Awareness Campaign', date: '1 month ago', excerpt: 'New portal helps citizens report phishing SMS and fraudulent calls directly...' },
+            { tag: 'Scam Alert', color: 'b-red', title: 'Fake "HBL Mobile" APK Steals Banking Credentials', date: '1 month ago', excerpt: 'A malicious APK shared on WhatsApp mimics the HBL app. Here\'s how to tell the difference...' }
+        ];
+
+        const DOWNLOADS = [
+            { title: 'Cyber Safety Guide (PDF)', desc: 'Complete 20-page guide covering passwords, phishing, social media & safe browsing.', icon: 'file-text', size: '2.4 MB' },
+            { title: 'Top 10 Scams in Pakistan', desc: 'Real case studies — JazzCash scams, fake BISP messages, WhatsApp fraud.', icon: 'alert-triangle', size: '1.8 MB' },
+            { title: 'Password Policy Checklist', desc: 'Printable checklist for students and offices.', icon: 'list-checks', size: '350 KB' },
+            { title: 'Parent\'s Guide to Child Online Safety', desc: 'How to protect children online — for Pakistani parents.', icon: 'users', size: '1.1 MB' }
+        ];
+
+        /* ============ NAV ============ */
+        function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.toggle('active', l.dataset.page === page);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+            if (page === 'home') animateCounters();
+        }
+        function toggleMobileMenu() {
+            const m = document.getElementById('mobile-menu');
+            m.classList.toggle('hidden');
+            m.classList.toggle('flex');
+        }
+
+        /* ============ COUNTERS ============ */
+        function animateCounters() {
+            document.querySelectorAll('.counter').forEach(el => {
+                const target = +el.dataset.target;
+                let current = 0;
+                const step = target / 60;
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target; clearInterval(timer); }
+                    el.textContent = Math.floor(current).toLocaleString();
+                }, 20);
+            });
+        }
+
+        /* ============ ATTACKS ============ */
+        function renderAttacks() {
+            const g = document.getElementById('attacks-grid');
+            g.innerHTML = ATTACKS.map(a => `
+    <div class="glass p-6 glass-hover">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:${a.bg};">
+          <i data-lucide="${a.icon}" class="w-6 h-6" style="color:${a.color};"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-xl font-semibold">${a.title}</h3>
+          <p class="text-[var(--muted)] text-sm mt-2">${a.desc}</p>
+          <div class="mt-4 p-3 rounded-lg" style="background:rgba(255,181,71,0.08); border-left:3px solid var(--warn);">
+            <div class="text-xs font-semibold text-[var(--warn)] mb-1">🇵🇰 REAL CASE</div>
+            <div class="text-sm text-[var(--muted)]">${a.pk}</div>
+          </div>
+          <div class="mt-4">
+            <div class="text-xs text-[var(--muted)] mb-2 uppercase tracking-wider">Attack Flow</div>
+            <div class="flex flex-wrap items-center gap-2">
+              ${a.flow.map((f, i) => `<div class="flow-node">${f}</div>${i < a.flow.length - 1 ? '<div class="flow-arrow">→</div>' : ''}`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+            lucide.createIcons();
+        }
+
+        /* ============ GUIDES ============ */
+        function renderGuides() {
+            const g = document.getElementById('guides-container');
+            g.innerHTML = GUIDES.map((guide, gi) => `
+    <div class="glass overflow-hidden">
+      <button class="w-full p-5 flex items-center justify-between text-left accordion-btn" data-idx="${gi}">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(0,229,160,0.15);">
+            <i data-lucide="${guide.icon}" class="w-5 h-5" style="color:var(--accent);"></i>
+          </div>
+          <div>
+            <div class="font-semibold">${guide.title}</div>
+            <div class="text-xs text-[var(--muted)] mt-1">${guide.steps.length} steps</div>
+          </div>
+        </div>
+        <i data-lucide="chevron-down" class="w-5 h-5 text-[var(--muted)] chev"></i>
+      </button>
+      <div class="accordion-content px-5">
+        <div class="pb-5 space-y-3">
+          ${guide.steps.map((s, i) => `
+            <div class="flex gap-3 items-start">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style="background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0a0e1a;">${i + 1}</div>
+              <div class="text-sm text-[var(--muted)] pt-1">${s}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+            lucide.createIcons();
+            document.querySelectorAll('.accordion-btn').forEach(btn => {
+                btn.onclick = () => {
+                    const content = btn.nextElementSibling;
+                    const chev = btn.querySelector('.chev');
+                    content.classList.toggle('open');
+                    chev.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : '';
+                };
+            });
+        }
+
+        /* ============ TOOL TABS ============ */
+        document.querySelectorAll('#tool-tabs .tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('#tool-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.tool-panel').forEach(p => p.classList.add('hidden'));
+                document.querySelector(`.tool-panel[data-tool="${btn.dataset.tool}"]`).classList.remove('hidden');
+            };
+        });
+
+        /* ============ PASSWORD ============ */
+        const pwdInput = document.getElementById('pwd-input');
+        const pwdBar = document.getElementById('pwd-bar');
+        const pwdLabel = document.getElementById('pwd-label');
+        const pwdCrack = document.getElementById('pwd-crack');
+        const pwdTips = document.getElementById('pwd-tips');
+        const pwdColors = ['#ff4d6d', '#ff7a5c', '#ffb547', '#4b7bff', '#00e5a0'];
+        const pwdLabels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Excellent'];
+
+        pwdInput.addEventListener('input', () => {
+            const v = pwdInput.value;
+            if (!v) { pwdBar.style.width = '0%'; pwdLabel.textContent = 'Strength: —'; pwdCrack.textContent = ''; pwdTips.innerHTML = ''; return; }
+            const r = zxcvbn(v);
+            const s = r.score;
+            pwdBar.style.width = ((s + 1) * 20) + '%';
+            pwdBar.style.background = pwdColors[s];
+            pwdLabel.innerHTML = `Strength: <span style="color:${pwdColors[s]}">${pwdLabels[s]}</span>`;
+            pwdCrack.textContent = `~ ${r.crack_times_display.offline_slow_hashing_1e4_per_second} to crack`;
+            const tips = [];
+            if (r.feedback.warning) tips.push('⚠ ' + r.feedback.warning);
+            r.feedback.suggestions.forEach(t => tips.push('💡 ' + t));
+            if (!tips.length && s >= 4) tips.push('✅ Excellent password!');
+            pwdTips.innerHTML = tips.map(t => `<div>${t}</div>`).join('');
+        });
+        function togglePwd() {
+            const eye = document.getElementById('pwd-eye');
+            if (pwdInput.type === 'text') { pwdInput.type = 'password'; eye.setAttribute('data-lucide', 'eye'); }
+            else { pwdInput.type = 'text'; eye.setAttribute('data-lucide', 'eye-off'); }
+            lucide.createIcons();
+        }
+
+        /* ============ URL CHECK ============ */
+        function checkURL() {
+            const v = document.getElementById('url-input').value.trim();
+            const res = document.getElementById('url-result');
+            if (!v) { res.innerHTML = ''; showToast('Enter a URL first'); return; }
+            let score = 0;
+            const issues = [], positives = [];
+            try {
+                const u = new URL(v);
+                if (u.protocol === 'https:') { positives.push('✅ Uses HTTPS (encrypted)'); } else { issues.push('❌ No HTTPS — traffic is unencrypted'); score += 3; }
+                const bad = ['login', 'verify', 'secure', 'account', 'update', 'confirm', 'bank', 'wallet', 'gift', 'prize', 'claim'];
+                const found = bad.filter(k => u.hostname.toLowerCase().includes(k) || u.pathname.toLowerCase().includes(k));
+                if (found.length) { issues.push(`⚠ Suspicious keywords: ${found.join(', ')}`); score += 2; }
+                if (v.length > 75) { issues.push('⚠ Unusually long URL'); score += 1; } else positives.push('✅ Reasonable length');
+                if (/\d+\.\d+\.\d+\.\d+/.test(u.hostname)) { issues.push('❌ Uses raw IP instead of domain'); score += 3; }
+                const tldBad = ['.xyz', '.tk', '.top', '.click', '.zip', '.link'];
+                if (tldBad.some(t => u.hostname.endsWith(t))) { issues.push('⚠ Uncommon/suspicious TLD'); score += 2; }
+                if ((u.hostname.match(/-/g) || []).length >= 3) { issues.push('⚠ Many dashes in domain'); score += 1; }
+                if (u.hostname.split('.').length > 3) { issues.push('⚠ Many subdomains (possible spoofing)'); score += 1; }
+            } catch (e) {
+                res.innerHTML = `<div class="glass p-4" style="border-color:var(--danger);">Invalid URL format</div>`;
+                return;
+            }
+            let verdict, color, icon;
+            if (score >= 4) { verdict = 'DANGEROUS — Do NOT click'; color = 'var(--danger)'; icon = 'x-octagon'; }
+            else if (score >= 2) { verdict = 'SUSPICIOUS — Proceed carefully'; color = 'var(--warn)'; icon = 'alert-triangle'; }
+            else { verdict = 'LIKELY SAFE'; color = 'var(--accent)'; icon = 'shield-check'; }
+            res.innerHTML = `
+    <div class="glass p-5" style="border-color:${color};">
+      <div class="flex items-center gap-3 mb-4">
+        <i data-lucide="${icon}" class="w-8 h-8" style="color:${color};"></i>
+        <div>
+          <div class="text-xs text-[var(--muted)] uppercase">Verdict</div>
+          <div class="text-xl font-bold" style="color:${color};">${verdict}</div>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div>
+          <div class="text-xs uppercase text-[var(--muted)] mb-2">Issues Found</div>
+          ${issues.length ? issues.map(i => `<div class="text-[var(--muted)]">${i}</div>`).join('') : '<div class="text-[var(--accent)]">None 🎉</div>'}
+        </div>
+        <div>
+          <div class="text-xs uppercase text-[var(--muted)] mb-2">Positive Signs</div>
+          ${positives.length ? positives.map(p => `<div class="text-[var(--muted)]">${p}</div>`).join('') : '<div class="text-[var(--muted)]">—</div>'}
+        </div>
+      </div>
+    </div>
+  `;
+            lucide.createIcons();
+        }
+
+        /* ============ PHISHING SIM ============ */
+        let phishIdx = 0, phishScore = 0;
+        function renderPhish() {
+            const stage = document.getElementById('phish-stage');
+            if (phishIdx >= PHISH_SCENARIOS.length) {
+                stage.innerHTML = `
+      <div class="text-center py-10">
+        <i data-lucide="award" class="w-16 h-16 mx-auto" style="color:var(--accent);"></i>
+        <h3 class="text-2xl font-bold mt-4">You scored ${phishScore} / ${PHISH_SCENARIOS.length}</h3>
+        <p class="text-[var(--muted)] mt-2">${phishScore === PHISH_SCENARIOS.length ? 'Perfect — you\'re a phishing detector!' : 'Keep practicing to sharpen your instincts.'}</p>
+        <button class="btn-primary mt-6" onclick="phishIdx=0; phishScore=0; renderPhish();"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Try Again</button>
+      </div>`;
+                lucide.createIcons();
+                return;
+            }
+            const s = PHISH_SCENARIOS[phishIdx];
+            stage.innerHTML = `
+    <div class="scenario-card">
+      <div class="flex items-center justify-between mb-3">
+        <span class="badge b-blue">Scenario ${phishIdx + 1}/${PHISH_SCENARIOS.length}</span>
+        <span class="text-xs text-[var(--muted)] mono">Score: ${phishScore}</span>
+      </div>
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(75,123,255,0.2);">
+          <i data-lucide="mail" class="w-5 h-5" style="color:var(--accent2);"></i>
+        </div>
+        <div><div class="font-semibold">${s.from}</div><div class="text-xs text-[var(--muted)]">incoming message</div></div>
+      </div>
+      <div class="p-4 rounded-lg" style="background:rgba(10,14,26,0.6); border:1px solid var(--border);">
+        <p class="text-[var(--muted)]">${s.msg}</p>
+      </div>
+      <div class="flex gap-3 mt-5">
+        <button class="btn-primary flex-1 justify-center" onclick="answerPhish(true)"><i data-lucide="check" class="w-4 h-4"></i> Trust it</button>
+        <button class="btn-ghost flex-1 justify-center" onclick="answerPhish(false)"><i data-lucide="x" class="w-4 h-4"></i> Ignore / Report</button>
+      </div>
+    </div>`;
+            lucide.createIcons();
+        }
+        function answerPhish(trusted) {
+            const s = PHISH_SCENARIOS[phishIdx];
+            const correct = (trusted === s.safe);
+            if (correct) phishScore++;
+            const stage = document.getElementById('phish-stage');
+            stage.innerHTML = `
+    <div class="scenario-card" style="border-color:${correct ? 'var(--accent)' : 'var(--danger)'};">
+      <div class="flex items-center gap-3 mb-3">
+        <i data-lucide="${correct ? 'check-circle-2' : 'x-circle'}" class="w-10 h-10" style="color:${correct ? 'var(--accent)' : 'var(--danger)'};"></i>
+        <div>
+          <div class="text-xl font-bold">${correct ? 'Correct! 🎯' : 'Ouch! 💥'}</div>
+          <div class="text-sm text-[var(--muted)]">${correct ? 'Your instinct was right.' : 'In real life, this could cost you.'}</div>
+        </div>
+      </div>
+      <div class="p-4 rounded-lg mt-3" style="background:rgba(10,14,26,0.6);">
+        <div class="text-xs uppercase text-[var(--muted)] mb-1">Explanation</div>
+        <div class="text-sm">${s.expl}</div>
+      </div>
+      <button class="btn-primary mt-5 w-full justify-center" onclick="phishIdx++; renderPhish();"><i data-lucide="arrow-right" class="w-4 h-4"></i> Next Scenario</button>
+    </div>`;
+            lucide.createIcons();
+        }
+
+        /* ============ RISK ============ */
+        function renderRisk() {
+            const c = document.getElementById('risk-questions');
+            c.innerHTML = RISK_Q.map((q, i) => `
+    <div class="glass p-4 mb-3">
+      <div class="font-medium mb-3">${i + 1}. ${q.q}</div>
+      <div class="flex gap-2">
+        <button class="btn-ghost flex-1 justify-center risk-btn" data-i="${i}" data-a="yes">Yes</button>
+        <button class="btn-ghost flex-1 justify-center risk-btn" data-i="${i}" data-a="no">No</button>
+      </div>
+    </div>
+  `).join('') + `<button class="btn-primary w-full justify-center mt-4" onclick="computeRisk()"><i data-lucide="bar-chart-3" class="w-4 h-4"></i> Analyze My Risk</button>`;
+            lucide.createIcons();
+            document.querySelectorAll('.risk-btn').forEach(b => {
+                b.onclick = () => {
+                    const parent = b.parentElement;
+                    parent.querySelectorAll('.risk-btn').forEach(x => x.style.background = '');
+                    b.style.background = 'rgba(0,229,160,0.15)';
+                    b.style.borderColor = 'var(--accent)';
+                    b.dataset.selected = '1';
+                };
+            });
+        }
+        let riskChart = null;
+        function computeRisk() {
+            const answers = {};
+            document.querySelectorAll('.risk-btn[data-selected="1"]').forEach(b => { answers[b.dataset.i] = b.dataset.a; });
+            if (Object.keys(answers).length < RISK_Q.length) { showToast('Answer all questions first'); return; }
+            let score = 0;
+            RISK_Q.forEach((q, i) => { if (answers[i] === q.good) score++; });
+            const pct = Math.round((score / RISK_Q.length) * 100);
+            let level, color;
+            if (pct >= 80) { level = 'Low Risk'; color = '#00e5a0'; }
+            else if (pct >= 50) { level = 'Medium Risk'; color = '#ffb547'; }
+            else { level = 'High Risk'; color = '#ff4d6d'; }
+            const r = document.getElementById('risk-result');
+            r.classList.remove('hidden');
+            r.innerHTML = `
+    <div class="glass p-6">
+      <div class="grid md:grid-cols-2 gap-6 items-center">
+        <div>
+          <div class="text-xs uppercase text-[var(--muted)]">Your Risk Level</div>
+          <div class="text-4xl font-bold mt-1" style="color:${color};">${level}</div>
+          <div class="text-[var(--muted)] mt-2">Safety Score: <span class="font-bold" style="color:${color};">${pct}%</span></div>
+          <div class="mt-4 text-sm text-[var(--muted)]">${pct >= 80 ? 'Great habits! Keep it up and review your setup quarterly.' : pct >= 50 ? 'You have a solid base — fix a few weak spots to level up.' : 'Your digital life is at risk. Start with 2FA and unique passwords today.'}</div>
+        </div>
+        <div><canvas id="risk-chart" height="220"></canvas></div>
+      </div>
+    </div>`;
+            if (riskChart) riskChart.destroy();
+            const ctx = document.getElementById('risk-chart').getContext('2d');
+            riskChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Safe', 'At Risk'], datasets: [{ data: [pct, 100 - pct], backgroundColor: [color, 'rgba(255,255,255,0.08)'], borderWidth: 0 }] },
+                options: { cutout: '72%', plugins: { legend: { labels: { color: '#8892b0' } } } }
+            });
+        }
+
+        /* ============ EMAIL ANALYZER ============ */
+        function setupEmailTooltips() {
+            document.querySelectorAll('.highlight-suspicious').forEach(el => {
+                el.onclick = (e) => {
+                    document.querySelectorAll('.tooltip').forEach(t => t.remove());
+                    const tip = document.createElement('div');
+                    tip.className = 'tooltip';
+                    tip.textContent = el.dataset.tip;
+                    document.body.appendChild(tip);
+                    const r = el.getBoundingClientRect();
+                    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+                    tip.style.left = Math.min(window.innerWidth - 260, r.left) + 'px';
+                    setTimeout(() => tip.remove(), 5000);
+                    e.stopPropagation();
+                };
+            });
+            document.body.addEventListener('click', () => { document.querySelectorAll('.tooltip').forEach(t => t.remove()); });
+        }
+
+        /* ============ CHECKLIST ============ */
+        function renderChecklist() {
+            const c = document.getElementById('checklist-items');
+            const saved = JSON.parse(localStorage.getItem('cs_checks') || '[]');
+            c.innerHTML = CHECKLIST.map((item, i) => `
+    <label class="check-item glass p-4 flex items-center gap-3">
+      <input type="checkbox" data-i="${i}" ${saved.includes(i) ? 'checked' : ''}/>
+      <span class="check-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+      <span class="text-sm">${item}</span>
+    </label>
+  `).join('');
+            c.querySelectorAll('input').forEach(inp => {
+                inp.onchange = updateChecklist;
+            });
+            updateChecklist();
+        }
+        function updateChecklist() {
+            const checked = [...document.querySelectorAll('#checklist-items input:checked')].map(i => +i.dataset.i);
+            localStorage.setItem('cs_checks', JSON.stringify(checked));
+            const pct = Math.round((checked.length / CHECKLIST.length) * 100);
+            document.getElementById('check-percent').textContent = pct + '%';
+            document.getElementById('check-bar').style.width = pct + '%';
+        }
+
+        /* ============ QUIZ ============ */
+        let qIdx = 0, qScore = 0, qTimer = null, qTime = 0;
+        function renderQuiz() {
+            qIdx = 0; qScore = 0; qTime = 0;
+            if (qTimer) clearInterval(qTimer);
+            showQuestion();
+        }
+        function showQuestion() {
+            const c = document.getElementById('quiz-container');
+            if (qIdx >= QUIZ.length) { finishQuiz(); return; }
+            const q = QUIZ[qIdx];
+            c.innerHTML = `
+    <div class="flex justify-between items-center mb-4">
+      <span class="badge b-blue">Q ${qIdx + 1} / ${QUIZ.length}</span>
+      <span class="mono text-xs text-[var(--muted)]" id="q-timer">⏱ ${qTime}s</span>
+    </div>
+    <div class="progress-track mb-6"><div class="progress-fill" style="width:${(qIdx / QUIZ.length) * 100}%; background:linear-gradient(90deg,var(--accent),var(--accent2));"></div></div>
+    <h3 class="text-xl font-semibold mb-5">${q.q}</h3>
+    <div class="grid md:grid-cols-2 gap-3" id="q-opts">
+      ${q.opts.map((o, i) => `<button class="quiz-option" data-i="${i}">${String.fromCharCode(65 + i)}. ${o}</button>`).join('')}
+    </div>
+    <div id="q-feedback" class="mt-4"></div>
+  `;
+            document.querySelectorAll('#q-opts .quiz-option').forEach(b => {
+                b.onclick = () => answerQuiz(+b.dataset.i, b);
+            });
+            if (!qTimer) { qTimer = setInterval(() => { qTime++; const t = document.getElementById('q-timer'); if (t) t.textContent = '⏱ ' + qTime + 's'; }, 1000); }
+        }
+        function answerQuiz(i, btn) {
+            const q = QUIZ[qIdx];
+            document.querySelectorAll('#q-opts .quiz-option').forEach(b => b.onclick = null);
+            if (i === q.a) { btn.classList.add('correct'); qScore++; }
+            else { btn.classList.add('wrong'); document.querySelectorAll('#q-opts .quiz-option')[q.a].classList.add('correct'); }
+            document.getElementById('q-feedback').innerHTML = `<div class="glass p-3 text-sm">${i === q.a ? '✅ Correct!' : '❌ Wrong. Correct answer is highlighted.'}</div>`;
+            setTimeout(() => { qIdx++; showQuestion(); }, 1400);
+        }
+        function finishQuiz() {
+            clearInterval(qTimer); qTimer = null;
+            let badge, color, icon;
+            const pct = (qScore / QUIZ.length) * 100;
+            if (pct >= 90) { badge = 'Cyber Hero'; color = 'var(--accent)'; icon = 'shield-check'; }
+            else if (pct >= 60) { badge = 'Safe User'; color = 'var(--accent2)'; icon = 'shield'; }
+            else { badge = 'Beginner'; color = 'var(--warn)'; icon = 'sprout'; }
+            const best = Math.max(qScore, +(localStorage.getItem('cs_quiz_best') || 0));
+            localStorage.setItem('cs_quiz_best', best);
+            const c = document.getElementById('quiz-container');
+            c.innerHTML = `
+    <div class="text-center py-6">
+      <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-4" style="background:${color}20; border:2px solid ${color};">
+        <i data-lucide="${icon}" class="w-12 h-12" style="color:${color};"></i>
+      </div>
+      <h2 class="text-3xl font-bold">${qScore} / ${QUIZ.length}</h2>
+      <div class="mt-2 text-[var(--muted)]">Time: ${qTime}s · Best: ${best}/${QUIZ.length}</div>
+      <div class="mt-4"><span class="badge" style="color:${color}; border-color:${color}; background:${color}15;"><i data-lucide="${icon}" class="w-3 h-3"></i> ${badge}</span></div>
+      <p class="text-[var(--muted)] mt-4 max-w-md mx-auto">${pct >= 90 ? 'Incredible — you could spot a scam from a mile away!' : pct >= 60 ? 'Solid effort! A few more tries and you\'ll be a pro.' : 'Great start — go through the Attacks & Guides sections and try again.'}</p>
+      <div class="flex gap-3 mt-6 justify-center">
+        <button class="btn-primary" onclick="renderQuiz()"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Retake</button>
+        <button class="btn-ghost" onclick="navigate('tools')"><i data-lucide="wrench" class="w-4 h-4"></i> Try Tools</button>
+      </div>
+    </div>`;
+            lucide.createIcons();
+        }
+
+        /* ============ BLOG ============ */
+        function renderBlog() {
+            document.getElementById('blog-grid').innerHTML = BLOG.map(b => `
+    <div class="glass p-5 glass-hover cursor-pointer" onclick="showToast('Full article coming soon!')">
+      <div class="flex items-center justify-between mb-3">
+        <span class="badge ${b.color}">${b.tag}</span>
+        <span class="text-xs text-[var(--muted)]">${b.date}</span>
+      </div>
+      <h3 class="font-semibold text-lg leading-snug">${b.title}</h3>
+      <p class="text-[var(--muted)] text-sm mt-2">${b.excerpt}</p>
+      <div class="mt-4 text-sm flex items-center gap-1" style="color:var(--accent);">Read more <i data-lucide="arrow-right" class="w-4 h-4"></i></div>
+    </div>
+  `).join('');
+            lucide.createIcons();
+        }
+
+        /* ============ DOWNLOADS ============ */
+        function renderDownloads() {
+            document.getElementById('downloads-grid').innerHTML = DOWNLOADS.map(d => `
+    <div class="glass p-6 glass-hover flex gap-4">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(75,123,255,0.15);">
+        <i data-lucide="${d.icon}" class="w-7 h-7" style="color:var(--accent2);"></i>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold">${d.title}</h3>
+        <p class="text-[var(--muted)] text-sm mt-1">${d.desc}</p>
+        <div class="flex items-center gap-3 mt-4">
+          <button class="btn-primary" onclick="showToast('Sample PDF — attach your own in deployment')"><i data-lucide="download" class="w-4 h-4"></i> Download</button>
+          <span class="text-xs text-[var(--muted)]">${d.size} · PDF</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+            lucide.createIcons();
+        }
+
+        /* ============ TOAST ============ */
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 2800);
+        }
+
+        /* ============ ELEMENT SDK ============ */
+        const defaultConfig = {
+            site_name: 'CyberShield',
+            hero_title: 'Stay Safe in a Connected World.',
+            hero_subtitle: 'Learn real-world cyber threats, practice detecting scams, and use interactive tools to check your digital safety — built for students & non-technical users.',
+            footer_text: '© 2025 CyberShield — A Final Year Project on Cyber Security Awareness'
+        };
+
+        function applyConfig(cfg) {
+            document.getElementById('brand-name').textContent = cfg.site_name || defaultConfig.site_name;
+            const ht = cfg.hero_title || defaultConfig.hero_title;
+            document.getElementById('hero-title').innerHTML = ht.replace(/Safe/i, '<span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;">Safe</span>');
+            document.getElementById('hero-subtitle').textContent = cfg.hero_subtitle || defaultConfig.hero_subtitle;
+            document.getElementById('footer-text').textContent = cfg.footer_text || defaultConfig.footer_text;
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange: async (cfg) => applyConfig(cfg),
+                mapToCapabilities: (cfg) => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
+                mapToEditPanelValues: (cfg) => new Map([
+                    ['site_name', cfg.site_name || defaultConfig.site_name],
+                    ['hero_title', cfg.hero_title || defaultConfig.hero_title],
+                    ['hero_subtitle', cfg.hero_subtitle || defaultConfig.hero_subtitle],
+                    ['footer_text', cfg.footer_text || defaultConfig.footer_text]
+                ])
+            });
+        }
+
+        /* ============ INIT ============ */
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderAttacks();
+            renderGuides();
+            renderChecklist();
+            renderRisk();
+            renderPhish();
+            renderBlog();
+            renderDownloads();
+            setupEmailTooltips();
+            renderQuiz();
+            animateCounters();
+        });
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9f2e0dacc298167a',t:'MTc3NzI5NTI4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
